@@ -1,4 +1,3 @@
-01234567890012345678900123456789001234567890012345678900123456789001234567890
 # HP-41CY Initialization ROM
 
 This is my attempt to re-initialize a corrupted HP-41CY calculator. If you
@@ -48,7 +47,7 @@ Prepare your HP-41CY for re-initialization:
 * Remove all modules.
 * Insert the CLONIX in port 2.
 
-![OS write protection DIP switch](https://github.com/blanknut/rb2ini/master/images/wwrbprotect.png)
+![DIP](https://raw.githubusercontent.com/blanknut/rb2ini/master/images/wwrbprotect.png "OS write protection DIP switch")
 
 Before continuing please note that the whole RAMBOX will be cleared!  
 However, this shouldn't be a problem if your HP-41CY is really corrupted.
@@ -81,4 +80,3 @@ I guess you already know the following web sites:
   experience.
 * The [CLONIX](http://www.clonix41.org) module is one of the best add-ons you can
   buy for your Series 41 calculator and worth every penny.
-
