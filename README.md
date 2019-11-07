@@ -35,7 +35,7 @@ Program a CLONIX module using the following configuration:
 | #A   | *must be empty*                     |
 | #B   | rb2ini-b.rom                        |
 | #C   | Any 4K ROM, e.g., David Assembler   |
-| #D   | Any 4K ROM, e.g., Main Frame Labels |
+| #D   | empty (due to CLONIX limitation)    |
 | #E   | Rambx64a.rom (HP-41CY OS/A)         |
 | #F   | Rambx64b.rom (HP-41CY OS/B)         |
 
@@ -45,7 +45,7 @@ Prepare your HP-41CY for re-initialization:
 * Make sure that the OS write protection DIP switch is set to _Unprotect_.
   You'll find this switch in the battery compartment, see picture below.
 * Remove all modules.
-* Insert the CLONIX in port 2.
+* Insert the CLONIX int any port.
 
 ![DIP](https://raw.githubusercontent.com/blanknut/rb2ini/master/images/wwrbprotect.png "OS write protection DIP switch")
 
@@ -55,8 +55,8 @@ However, this shouldn't be a problem if your HP-41CY is really corrupted.
 Now it's time to turn on your HP-41CY. The re-initialization program starts
 automatically and shows the following progress:
 
-> &#50883;&#10033;&#10033;/a9ABCDEF/bABCDEF
- 
+> &#50883;&#10033;&#10033;/a9BCDEF/-bABCDEF-
+
 If not:
 * your HP-41CY might be in a state which is not properly handled by this 
   re-initialization module (sorry), or
