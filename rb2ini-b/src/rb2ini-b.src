@@ -1,0 +1,13 @@
+;**********************************************************************
+; A ROM to re-initialize a corrupted HP-41CY.
+; Written in 2019 by Jurgen Keller <jkeller@gmx.ch>
+;
+; This is an auxiliary ROM to help the main procedure doing a safe
+; switch to bank #1.
+;**********************************************************************
+
+            .TITLE  "HP-41CY Initialization"
+            .JDA
+
+            ; just jump back to the main procedure in page #4 (ROM)
+(ENTRY)     ?NCGO       4100

@@ -1,0 +1,254 @@
+;**********************************************************************
+; A ROM to re-initialize a corrupted HP-41CY.
+; Written in 2019 by Jurgen Keller <jkeller@gmx.ch>
+;**********************************************************************
+
+            .TITLE  "HP-41CY Initialization"
+            .JDA
+
+;*** Main entry *******************************************************
+
+; A take-over module has no header, it simply starts at address 0.
+; Note that this code runs in page #4 (ROM).
+
+(TAKEOVER)  DSPOFF
+            DSPTOG
+            ?NCXQ       [CLLCDE]
+            SETHEX
+
+            LDIS&X      10B         ; show progress (little man)
+            WRIT        15(e)
+
+            ; clearing page #9 and #A in RAM might be a bit of
+            ; overkill here, but let's be on the safe side
+            ?NCXQREL    (CLPG9)
+            LDIS&X      02A         ; show progress (*)
+            WRIT        15(e)
+            ?NCXQREL    (CLPGA)
+            LDIS&X      02A         ; show progress (*)
+            WRIT        15(e)
+
+            ; prepare controlled switch to bank #1
+            C=0         ALL
+            LDIS&X      04E         ; C=0 ALL opcode
+            R=          6
+            LD@R        A
+            LD@R        F
+            LD@R        F
+            LD@R        E
+            WROM
+            LDIS&X      100         ; ENROM1 opcode
+            R=          3
+            LD@R        F
+            WROM
+
+            ; jump to the bank switching instructions in page A
+            ; (RAM) and immediately jump back to (INIBNK1) with
+            ; the help of another ROM in page B
+            ?NCGO       AFFE
+
+;*** Initialize bank #1 ***********************************************
+
+; Note that this code runs in page #4 (ROM) and bank #1 is active.
+
+            .FILLTO     00FF
+(INIBNK1)   ?NCXQREL    (COPYME2A)  ; copy RB2INI to page A
+            LDIS&X      02F         ; show progress (/)
+            WRIT        15(e)
+
+            ?NCXQREL    (COPYOSA)   ; copy OS/A from page E to 8
+            LDIS&X      101         ; show progress (a)
+            WRIT        15(e)
+
+            ; clear pages 9 and B to F in bank #1
+            ?NCXQREL    (CLPG9)
+            LDIS&X      039
+            WRIT        15(e)
+            ?NCXQREL    (CLPGB2F)
+
+            ?NCGO       A200        ; transfer control to RB2INI
+                                    ; in page A (RAM, bank #1)
+
+;*** Prepare initialization of bank #2 ********************************
+
+; Note that this code runs in page #A (RAM) of bank #1. The ENROMx
+; instructions have only an effect when executed in RAM.
+
+            .FILLTO     01FF
+(PREPINI2)  ENROM1                  ; enable even pages of bank #1
+            ENROM2                  ; and odd pages of bank #2
+
+            ?NCXQREL    (COPYME29)  ; copy RB2INI to page 9
+            LDIS&X      02F         ; show progress (/)
+            WRIT        15(e)
+
+            ?NCGO       9300        ; transfer control to RB2INI
+                                    ; in page 9 (RAM, bank #2)
+
+;*** Initialize bank #2 ***********************************************
+
+; Note that this code runs in page #9 (RAM) of bank #2. The ENROMx
+; instructions  have only any effect when when executed in RAM.
+
+            .FILLTO     02FF
+                                    ; delete RB2INI in bank #1
+(INIBNK2)   ?NCXQREL    (CLPGA)     ; (it's not needed anymore)
+            LDIS&X      02D         ; show progress (-)
+            WRIT        15(e)
+
+            ENROM2                  ; enable bank #2
+            ENROM3
+
+            ?NCXQREL    (COPYOSB)   ; copy OS/B from page F to 8
+            LDIS&X      102         ; show progress (b)
+            WRIT        15(e)
+
+            ; clear pages A to F in bank #2
+            ?NCXQREL    (CLPGA)
+            LDIS&X      001
+            WRIT        15(e)
+            ?NCXQREL    (CLPGB2F)
+
+            ?NCGO       4400        ; transfer control back to
+                                    ; take-over ROM
+
+;*** Cleanup **********************************************************
+
+; Note that this code runs in page #4 (ROM).
+
+            .FILLTO     03FF
+                                    ; delete RB2INI in bank #2
+(CLEANUP)   ?NCXQREL    (CLPG9)     ; (it's not needed anymore)
+            LDIS&X      02D         ; show progress (-)
+            WRIT        15(e)
+
+            ?NCXQ       [ENCP00]
+            ?NCXQ       [BEEP]      ; fanfare
+            DSPOFF                  ; done, power off
+            POWOFF
+            NOP
+
+;*** Helper Routines **************************************************
+
+            .FILLTO     047F
+
+            ; copy RB2INI from page 4 to 9
+(COPYME29)  C=0         ALL
+(COPYL1)    RCR         11
+            R=          6
+            LD@R        4
+            FETCHS&X
+            R=          6
+            LD@R        9
+            WROM
+            RCR         3
+            C=C+1       S&X
+            JNC         (COPYL1)
+            RTN
+
+            ; copy RB2INI from page 4 to A
+(COPYME2A)  C=0         ALL
+(COPYL2)    RCR         11
+            R=          6
+            LD@R        4
+            FETCHS&X
+            R=          6
+            LD@R        A
+            WROM
+            RCR         3
+            C=C+1       S&X
+            JNC         (COPYL2)
+            RTN
+
+            ; copy OS/A from page E to 8
+(COPYOSA)   C=0         ALL
+(COPYLA)    RCR         11
+            R=          6
+            LD@R        E
+            FETCHS&X
+            R=          6
+            LD@R        8
+            WROM
+            RCR         3
+            C=C+1       S&X
+            JNC         (COPYLA)
+            RTN
+
+            ; copy OS/B from page F to 8
+(COPYOSB)   C=0         ALL
+(COPYLB)    RCR         11
+            R=          6
+            LD@R        F
+            FETCHS&X
+            R=          6
+            LD@R        8
+            WROM
+            RCR         3
+            C=C+1       S&X
+            JNC         (COPYLB)
+            RTN
+
+            ; clear pages B to F
+(CLPGB2F)   ?NCXQREL    (CLPGB)
+            LDIS&X      002         ; show progress (B)
+            WRIT        15(e)
+
+            ?NCXQREL    (CLPGC)
+            LDIS&X      003         ; show progress (C)
+            WRIT        15(e)
+
+            ?NCXQREL    (CLPGD)
+            LDIS&X      004         ; show progress (D)
+            WRIT        15(e)
+
+            ?NCXQREL    (CLPGE)
+            LDIS&X      005         ; show progress (E)
+            WRIT        15(e)
+
+            ?NCXQREL    (CLPGF)     ; show progress (F)
+            LDIS&X      006
+            WRIT        15(e)
+            RTN
+
+            ; routines to clear individual pages
+
+(CLPG9)     C=0         ALL
+            R=          3
+            LD@R        9
+            JNC         (CLPGX)
+
+(CLPGA)     C=0         ALL
+            R=          3
+            LD@R        A
+            JNC         (CLPGX)
+
+(CLPGB)     C=0         ALL
+            R=          3
+            LD@R        B
+            JNC         (CLPGX)
+
+(CLPGC)     C=0         ALL
+            R=          3
+            LD@R        C
+            JNC         (CLPGX)
+
+(CLPGD)     C=0         ALL
+            R=          3
+            LD@R        D
+            JNC         (CLPGX)
+
+(CLPGE)     C=0         ALL
+            R=          3
+            LD@R        E
+            JNC         (CLPGX)
+
+(CLPGF)     C=0         ALL
+            R=          3
+            LD@R        F
+
+(CLPGX)     RCR         11
+            WROM
+            RCR         3
+            C=C+1       S&X
+            JNC         (CLPGX)
+            RTN

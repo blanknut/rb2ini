@@ -1,0 +1,11 @@
+;**********************************************************************
+; Link file for HP-41CY initialization ROM
+
+; Define page, bank and ROM name
+$PAGE 8 1 rb2ini-4
+
+; Tell the linker the name of the .obj files
+rb2ini-4
+
+; Calculate and store the checksum in the ROM image as well
+$CH
