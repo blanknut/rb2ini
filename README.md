@@ -47,9 +47,9 @@ Prepare your HP-41CY for re-initialization:
 * Remove all modules.
 * Insert the CLONIX int any port.
 
-![DIP](https://raw.githubusercontent.com/blanknut/rb2ini/master/images/wwrbprotect.png "OS write protection DIP switch")
+![DIP](./images/wwrbprotect.png "OS write protection DIP switch")
 
-Before continuing please note that the whole RAMBOX will be cleared!  
+Before continuing please note that the whole RAMBOX will be cleared!
 However, this shouldn't be a problem if your HP-41CY is really corrupted.
 
 Now it's time to turn on your HP-41CY. The re-initialization program starts
@@ -58,7 +58,7 @@ automatically and shows the following progress:
 > &#50883;&#10033;&#10033;/a9BCDEF/-bABCDEF-
 
 If not:
-* your HP-41CY might be in a state which is not properly handled by this 
+* your HP-41CY might be in a state which is not properly handled by this
   re-initialization module (sorry), or
 * there is a hardware problem (ouch).
 
@@ -66,10 +66,11 @@ If you encounter any issues please drop me a note. Maybe it helps to improve
 this module. Of course, any comments or suggestions are welcome.
 
 ## Implementation Notes
-I plan to write some detailed documentation about the re-initialization
-process and some of my findings. However, time is a scarce resource. Please
-return in a few weeks if you are interested.
-  
+Please refer to the document
+[HP-41CY Technical Information]( ./doc/hp41cy_techinfo.pdf)
+for details about the re-initialization process and some of my findings about
+the HP-41CY.
+
 ## References
 I guess you already know the following web sites:
 * [The HP-41 Archive](http://hp41.org/) web site contains _a lot_ of interesting
@@ -80,3 +81,4 @@ I guess you already know the following web sites:
   experience.
 * The [CLONIX](http://www.clonix41.org) module is one of the best add-ons you can
   buy for your Series 41 calculator and worth every penny.
+
