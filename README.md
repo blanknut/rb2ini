@@ -67,7 +67,7 @@ this module. Of course, any comments or suggestions are welcome.
 
 ## Implementation Notes
 Please refer to the document
-[HP-41CY Technical Information]( ./doc/hp41cy_techinfo.pdf)
+[HP-41CY Technical Information]( ./doc/hp41cy-techinfo.pdf)
 for details about the re-initialization process and some of my findings about
 the HP-41CY.
 
