@@ -1,0 +1,82 @@
+;**********************************************************************
+; A ROM to erase a working HP-41CY
+; (as a testing aid for the HP-41CY initialization ROM)
+; Written in 2019 by Jurgen Keller <jkeller@gmx.ch>
+;**********************************************************************
+
+            .TITLE  "HP-41CY Eraser"
+            .JDA
+
+;*** Main entry *******************************************************
+
+(TAKEOVER)  DSPOFF
+            DSPTOG
+            ?NCXQ       [CLLCDE]
+            SETHEX
+
+            LDIS&X      10B         ; show progress (little man)
+            WRIT        15(e)
+
+            ; switch to bank A
+(ENTRY)     ?NCXQ       8DCA        ; PG01
+            ?NCXQ       8DBC        ; PG<>
+
+            ; erase pages 8 to F of bank A
+            ?NCXQREL    (CLBANK)
+
+            LDIS&X      02F         ; show progress (/)
+            WRIT        15(e)
+
+            ; prepare bank switching by restoring PG<> function
+            ; (we have just overwritten it before)
+            C=0         ALL
+            R=          6
+            LD@R        8
+            LD@R        D
+            LD@R        B
+            LD@R        C
+            LDIS&X      180         ; ENBANK2
+            WROM
+            R=          3
+            LD@R        D
+            LDIS&X      140         ; ENBANK2
+            WROM
+
+            ; switch to bank B
+            ?NCXQ       8DBC
+
+            ; erase pages 8 to F of bank B
+            ?NCXQREL    (CLBANK)
+
+            ?NCXQ       [ENCP00]
+            ?NCXQ       [BEEP]      ; fanfare
+
+            RTN                     ; done, power off
+
+;*** Helper Routines **************************************************
+
+            ; helper routine to erase a bank
+(CLBANK)    LDIS&X      00F
+            A=C         S&X
+            C=0         ALL
+            LDIS&X      1F5
+            RCR         3
+            R=          3
+            LD@R        8
+(CLWORD)    RCR         11
+            WROM
+            RCR         3
+            C=C+1       S&X
+            JNC         (CLWORD)
+            RCR         3
+            C=C+1       S&X
+            ?A<C        S&X
+            ?CRTN
+
+            B=C         S&X
+            LDIS&X      02D         ; show progress (-)
+            WRIT        15(e)
+            C=B         S&X
+
+            RCR         11
+            JNC         (CLWORD)

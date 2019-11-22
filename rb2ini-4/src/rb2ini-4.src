@@ -124,9 +124,8 @@
 
             ?NCXQ       [ENCP00]
             ?NCXQ       [BEEP]      ; fanfare
-            DSPOFF                  ; done, power off
-            POWOFF
-            NOP
+            
+            RTN                     ; done, power off
 
 ;*** Helper Routines **************************************************
 

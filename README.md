@@ -4,8 +4,10 @@ This is my attempt to re-initialize a corrupted HP-41CY calculator. If you
 are not familiar with this model, this project is most probably not for you.
 Otherwise, please note:
 
-*THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. USE IT AT
-YOUR OWN RISK.* Furthermore, I can only provide limited support as I have a
+*THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, FOR EDUCATIONAL
+AND NON-COMMERCIAL USE ONLY. USE IT AT YOUR OWN RISK.*
+
+Furthermore, I can only provide limited support as I have a
 life besides HP calculators :-)
 
 ## Project Organization
@@ -65,6 +67,13 @@ If not:
 If you encounter any issues please drop me a note. Maybe it helps to improve
 this module. Of course, any comments or suggestions are welcome.
 
+## Testing
+For testing purposes I also wrote a HP-41CY Eraser module, see subfolder
+`./rb2del`. This is a take-over ROM, too. When plugged into a HP-41CY it
+runs automatically after a power-on and overwrites both banks of the RAMBOX,
+including the operating system (if not write protected). Usually, this causes
+a severe crash and the calculator goes crazy on the next power-on.
+
 ## Implementation Notes
 Please refer to the document
 [HP-41CY Technical Information]( ./doc/hp41cy-techinfo.pdf)
@@ -81,4 +90,5 @@ I guess you already know the following web sites:
   experience.
 * The [CLONIX](http://www.clonix41.org) module is one of the best add-ons you can
   buy for your Series 41 calculator and worth every penny.
+
 

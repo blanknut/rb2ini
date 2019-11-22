@@ -1,0 +1,11 @@
+;**********************************************************************
+; Link file for HP-41CY eraser ROM
+
+; Define page, bank and ROM name
+$PAGE 4 1 rb2del
+
+; Tell the linker the name of the .obj files
+rb2del
+
+; Calculate and store the checksum in the ROM image as well
+$CH

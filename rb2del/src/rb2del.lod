@@ -1,5 +1,5 @@
 ;**********************************************************************
-; Loader file for MCODE example
+; Loader file for the HP-41CY eraser ROM
 
 ; Load the HP-41 OS
 $PAGE 0 1 XNUT0
@@ -9,8 +9,8 @@ $PAGE 3 1 CXFUNS0
 $PAGE 5 1 TIMER
 $PAGE 5 2 CXFUNS1
 
-; Load the initialization ROM as well
-$PAGE B 1 rb2ini-b
+; Load the eraser ROM as well
+$PAGE 4 1 rb2del
 
 ; Include all labels so that we can move around easily
-$LABELS rb2ini-b
+$LABELS rb2del

@@ -1,5 +1,5 @@
 ;**********************************************************************
-; Loader file for MCODE example
+; Loader file for the HP-41CY initialization ROM
 
 ; Load the HP-41 OS
 $PAGE 0 1 XNUT0
@@ -9,7 +9,7 @@ $PAGE 3 1 CXFUNS0
 $PAGE 5 1 TIMER
 $PAGE 5 2 CXFUNS1
 
-; Load the example ROM as well
+; Load the initialization ROM as well
 $PAGE 8 1 rb2ini-4
 
 ; Include all labels so that we can move around easily
