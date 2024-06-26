@@ -1,7 +1,7 @@
 # HP-41CY Initialization ROM
 
 This is my attempt to re-initialize a corrupted HP-41CY calculator. If you
-are not familiar with this model, this project is most probably not for you.
+are not familiar with this device, this project is most probably not for you.
 Otherwise, please note:
 
 *THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, FOR EDUCATIONAL
@@ -47,7 +47,7 @@ Prepare your HP-41CY for re-initialization:
 * Make sure that the OS write protection DIP switch is set to _Unprotect_.
   You'll find this switch in the battery compartment, see picture below.
 * Remove all modules.
-* Insert the CLONIX int any port.
+* Insert the CLONIX into any port.
 
 ![DIP](./images/wwrbprotect.png "OS write protection DIP switch")
 
@@ -81,6 +81,9 @@ for details about the re-initialization process and some of my findings about
 the HP-41CY.
 
 ## References
+You might also be interested in my
+[W&W 32K RAMBOX Initialization ROM](https://github.com/blanknut/rbini).
+
 I guess you already know the following web sites:
 * [The HP-41 Archive](http://hp41.org/) web site contains _a lot_ of interesting
   information about the HP-41 calculator.
